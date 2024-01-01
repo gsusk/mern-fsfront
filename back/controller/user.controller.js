@@ -1,5 +1,5 @@
-import User from "../models/user.models"
-import { errorHandler } from "../utils/error"
+import User from "../models/user.models.js"
+import { errorHandler } from "../utils/error.js"
 import bcrypt from "bcryptjs"
 
 export const test = (req, res) => {
@@ -30,7 +30,8 @@ export const updateUser = async (req, res, next) => {
 
     // eslint-disable-next-line no-unused-vars
     const { password, ...rest } = updateUser._doc
-
+    console.log(password)
+    console.log(rest)
     res.status(200).json(rest)
   } catch (error) {
     next(error)
