@@ -11,6 +11,6 @@ const router = Router()
 router.post("/signup", signUp)
 router.post("/signin", signIn)
 router.post("/google", google)
-app.get("/signout", signOut)
+router.get("/signout", signOut)
 
 export default router
