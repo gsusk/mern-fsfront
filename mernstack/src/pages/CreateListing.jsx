@@ -123,14 +123,14 @@ export default function CreateListing() {
   }
 
   const handleSubmit = async (e) => {
-    if (formData.imageUrls.length < 1) {
-      return setError("Must upload at least 1 image")
-    }
-    if (+formData.regularPrice < +formData.discountPrice) {
-      return setError("Regular price must be higher than the discount")
-    }
     e.preventDefault()
     try {
+      if (formData.imageUrls.length < 1) {
+        return setError("Must upload at least 1 image")
+      }
+      if (+formData.regularPrice < +formData.discountPrice) {
+        return setError("Regular price must be higher than the discount")
+      }
       setLoading(false)
       setError(false)
       const res = await fetch("/api/listing/create", {
@@ -138,7 +138,7 @@ export default function CreateListing() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...formData, userRef: currentUser.userRef }),
+        body: JSON.stringify({ ...formData, userRef: currentUser._id }),
       })
       const data = await res.json()
       setLoading(false)
