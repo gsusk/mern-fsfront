@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom"
 export default function CreateListing() {
   const [files, setFiles] = useState([])
   const [formData, setFormData] = useState({
-    imageUrl: [],
+    imageUrls: [],
     name: "",
     description: "",
     address: "",
@@ -34,7 +34,7 @@ export default function CreateListing() {
 
   // eslint-disable-next-line no-unused-vars
   const handleImageSubmit = (e) => {
-    if (files.length > 0 && files.length + formData.imageUrl.length < 7) {
+    if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true)
       setImageUploadError(false)
       const promises = []
@@ -45,7 +45,10 @@ export default function CreateListing() {
 
       Promise.all(promises)
         .then((urls) => {
-          setFormData({ ...formData, imageUrl: formData.imageUrl.concat(urls) })
+          setFormData({
+            ...formData,
+            imageUrls: formData.imageUrls.concat(urls),
+          })
           setImageUploadError(false)
           setUploading(false)
         })
@@ -88,7 +91,7 @@ export default function CreateListing() {
   const handleRemoveImage = (index) => {
     setFormData({
       ...formData,
-      imageUrl: formData.imageUrl.filter((_, i) => {
+      imageUrls: formData.imageUrls.filter((_, i) => {
         return i !== index
       }),
     })
@@ -120,7 +123,7 @@ export default function CreateListing() {
   }
 
   const handleSubmit = async (e) => {
-    if (formData.imageUrl.length < 1) {
+    if (formData.imageUrls.length < 1) {
       return setError("Must upload at least 1 image")
     }
     if (+formData.regularPrice < +formData.discountPrice) {
@@ -329,8 +332,8 @@ export default function CreateListing() {
           <p className="text-red-700 text-sm">
             {imageUploadError && imageUploadError}
           </p>
-          {formData.imageUrl.length > 0 &&
-            formData.imageUrl.map((url, index) => (
+          {formData.imageUrls.length > 0 &&
+            formData.imageUrls.map((url, index) => (
               <div
                 key={url}
                 className="flex justify-between p-3 border items-center"
