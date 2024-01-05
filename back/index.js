@@ -16,6 +16,9 @@ mongoose
   .catch((err) => {
     console.error(err)
   })
+  .finally(() => {
+    mongoose.set("debug", true)
+  })
 
 const app = express()
 
@@ -25,7 +28,7 @@ app.use("/api/user", userRouter)
 app.use("/api/auth", authRouter)
 app.use("/api/listing", listingRouter)
 
-app.use((err, _req, res, _next) => {
+app.use((err, _req, res, next) => {
   const statusCode = err.statusCode || 500
   const message = err.message || "Internal Server Error"
   return res.status(statusCode).json({ success: false, statusCode, message })
