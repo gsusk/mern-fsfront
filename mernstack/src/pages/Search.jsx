@@ -4,15 +4,16 @@ import ListingItem from "../components/ListingItem"
 
 export default function Search() {
   const navigate = useNavigate()
-  const [sidebardata, setSideBarData] = useState({
+  const [sidebardata, setSidebardata] = useState({
     searchTerm: "",
     type: "all",
-    parking: "false",
-    furnished: "false",
+    parking: false,
+    furnished: false,
     offer: false,
     sort: "created_at",
     order: "desc",
   })
+
   const [loading, setLoading] = useState(false)
   const [listings, setListings] = useState([])
   const [showMore, setShowMore] = useState(false)
@@ -36,7 +37,7 @@ export default function Search() {
       sortFromUrl ||
       orderFromUrl
     ) {
-      setSideBarData({
+      setSidebardata({
         searchTerm: searchTermFromUrl || "",
         type: typeFromUrl || "all",
         parking: parkingFromUrl === "true" ? true : false,
@@ -71,11 +72,11 @@ export default function Search() {
       e.target.id === "rent" ||
       e.target.id === "sale"
     ) {
-      setSideBarData({ ...sidebardata, type: e.target.id })
+      setSidebardata({ ...sidebardata, type: e.target.id })
     }
 
     if (e.target.id === "searchTerm") {
-      setSideBarData({ ...sidebardata, searchTerm: e.target.value })
+      setSidebardata({ ...sidebardata, searchTerm: e.target.value })
     }
 
     if (
@@ -83,7 +84,7 @@ export default function Search() {
       e.target.id === "furnished" ||
       e.target.id === "offer"
     ) {
-      setSideBarData({
+      setSidebardata({
         ...sidebardata,
         [e.target.id]:
           e.target.checked || e.target.checked === "true" ? true : false,
@@ -95,7 +96,7 @@ export default function Search() {
 
       const order = e.target.value.split("_")[1] || "desc"
 
-      setSideBarData({ ...sidebardata, sort, order })
+      setSidebardata({ ...sidebardata, sort, order })
     }
   }
 
@@ -126,10 +127,9 @@ export default function Search() {
     }
     setListings([...listings, ...data])
   }
-
   return (
     <div className="flex flex-col md:flex-row">
-      <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
+      <div className="p-7  border-b-2 md:border-r-2 md:min-h-screen">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
             <label className="whitespace-nowrap font-semibold">
