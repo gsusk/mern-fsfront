@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user)
-  const { searchTerm, setSearchTerm } = useState("")
+  const [searchTerm, setSearchTerm] = useState("")
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -13,11 +13,11 @@ export default function Header() {
     const urlParams = new URLSearchParams(window.location.search)
     urlParams.set("searchTerm", searchTerm)
     const searchQuery = urlParams.toString()
-    navigate(`/search/${searchQuery}`)
+    navigate(`/search?${searchQuery}`)
   }
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
+    const urlParams = new URLSearchParams(location.search)
     const searchTermFromUrl = urlParams.get("searchTerm")
     if (searchTermFromUrl) {
       setSearchTerm(searchTermFromUrl)
@@ -41,6 +41,7 @@ export default function Header() {
             type="text"
             placeholder="Search..."
             className="bg-transparent focus:outline-none"
+            value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <FaSearch className="text-slate-600" />
